@@ -76,6 +76,14 @@ input[type=range]::-webkit-slider-thumb{
   box-shadow:0 4px 14px rgba(217,119,6,.4);
   cursor:pointer;
   position:relative;
+  transition:box-shadow .3s;
+}
+input[type=range].breathing::-webkit-slider-thumb{
+  animation:thumb-breathe 1.2s ease-in-out infinite;
+}
+@keyframes thumb-breathe{
+  0%,100%{box-shadow:0 4px 14px rgba(217,119,6,.4), 0 0 0 0 rgba(217,119,6,.5)}
+  50%{box-shadow:0 4px 20px rgba(217,119,6,.6), 0 0 0 14px rgba(217,119,6,0)}
 }
 .slider-thumb-label{
   position:absolute;
@@ -93,6 +101,10 @@ input[type=range]::-webkit-slider-thumb{
   display:flex;align-items:center;justify-content:center;
   flex-direction:column;
   gap:0;
+  transition:box-shadow .3s;
+}
+.slider-thumb-inner.breathing{
+  animation:thumb-breathe 1.2s ease-in-out infinite;
 }
 .slider-thumb-num{font-size:14px;font-weight:900;color:#fff;font-family:'DM Mono',monospace;line-height:1;letter-spacing:-.5px}
 .slider-thumb-unit{font-size:9px;color:rgba(255,255,255,.85);font-weight:600;line-height:1;margin-top:1px}
@@ -368,13 +380,16 @@ details[open] .summary-arrow{transform:rotate(90deg)}
         </div>
         <!-- Thumb overlay with number inside -->
         <div class="slider-thumb-label" id="thumb-label" style="top:0">
-          <div class="slider-thumb-inner">
+          <div class="slider-thumb-inner" id="thumb-inner">
             <div class="slider-thumb-num" id="len-val">3.0</div>
             <div class="slider-thumb-unit">米</div>
           </div>
         </div>
       </div>
       <div class="len-extra" id="len-extra"></div>
+      <div id="slider-hint" style="text-align:center;font-size:11px;color:var(--text3);margin-top:6px;letter-spacing:.5px;transition:opacity .4s">
+        ← 左右拖动调整台面长度 →
+      </div>
     </div>
 
     <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;margin-top:2px">台面厚度</div>
@@ -612,6 +627,7 @@ const PRICES={
 
 /* ── STATE ── */
 let mode='TOP', thick='6', drawerQty=0;
+let _sliderTouched = false;
 const fmt=n=>'¥'+Math.round(n).toLocaleString();
 
 /* ── SCREEN ROUTING ── */
@@ -893,9 +909,82 @@ window.addEventListener('load',()=>{
   initSocialLocal();
   initDates();
   updateAll();
-  // Hide quote box initially shown correctly
   document.querySelector('.quote-box').style.display='block';
+  // Auto-animate slider on load to show it's interactive
+  setTimeout(animateSlider, 800);
+  // Hide hint + stop animation on first interaction
+  const slider = document.getElementById('len-slider');
+  if(slider){
+    slider.addEventListener('input', function onFirst(){
+      _sliderTouched = true;
+      const hint = document.getElementById('slider-hint');
+      if(hint){ hint.style.opacity='0'; setTimeout(()=>hint.style.display='none',300); }
+      slider.classList.remove('breathing');
+      const ti = document.getElementById('thumb-inner');
+      if(ti) ti.classList.remove('breathing');
+      slider.removeEventListener('input', onFirst);
+    });
+  }
 });
+
+function animateSlider(){
+  const slider = document.getElementById('len-slider');
+  const thumbInner = document.getElementById('thumb-inner');
+  if(!slider) return;
+
+  slider.classList.add('breathing');
+  if(thumbInner) thumbInner.classList.add('breathing');
+
+  const MIN = 300;          // 3.0米起点
+  const MAX = 1500;         // 15米拉满
+  const TRIPS = 3;          // 来回3次
+  const STEP_MS = 22;       // 帧间隔 - 不能太短否则被throttle吞掉
+  const STEPS_ONE_WAY = 60; // 单程帧数，60帧×22ms=1.32秒单程
+
+  let trip = 0;
+  let step = 0;
+  let goingRight = true;
+
+  function easeInOut(t){ return t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+
+  function stopAnim(){
+    clearInterval(interval);
+    slider.classList.remove('breathing');
+    if(thumbInner) thumbInner.classList.remove('breathing');
+  }
+
+  const interval = setInterval(()=>{
+    if(_sliderTouched){ stopAnim(); return; }
+
+    step++;
+    const t = easeInOut(step / STEPS_ONE_WAY);
+    const val = goingRight
+      ? Math.round(MIN + (MAX - MIN) * t)
+      : Math.round(MAX - (MAX - MIN) * t);
+
+    // Set slider value AND directly update visuals (bypass throttle)
+    slider.value = val;
+    _calc();   // ← 直接调用，跳过throttle
+
+    if(step >= STEPS_ONE_WAY){
+      step = 0;
+      goingRight = !goingRight;
+      if(goingRight) trip++;
+      if(trip >= TRIPS){
+        stopAnim();
+        slider.value = MIN;
+        _calc();
+        const hint = document.getElementById('slider-hint');
+        if(hint){
+          setTimeout(()=>{
+            hint.style.opacity='0';
+            setTimeout(()=>hint.style.display='none', 600);
+          }, 1200);
+        }
+      }
+    }
+  }, STEP_MS);
+}
 
 function initSocialLocal(){
   // 绿湖国际城本地数据 - 手动更新
