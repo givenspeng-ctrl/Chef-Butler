@@ -935,41 +935,47 @@ function animateSlider(){
   slider.classList.add('breathing');
   if(thumbInner) thumbInner.classList.add('breathing');
 
-  const MIN = 300;          // 3.0米起点
-  const MAX = 1500;         // 15米拉满
-  const TRIPS = 3;          // 来回3次
-  const STEP_MS = 22;       // 帧间隔 - 不能太短否则被throttle吞掉
-  const STEPS_ONE_WAY = 60; // 单程帧数，60帧×22ms=1.32秒单程
+  const MIN = 300;
+  const MAX = 1500;
+  const TRIPS = 3;
+  const DURATION_ONE_WAY = 1400; // 单程1.4秒，来回3次共约8秒
 
   let trip = 0;
-  let step = 0;
   let goingRight = true;
+  let startTime = null;
+  let rafId = null;
 
   function easeInOut(t){ return t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
 
   function stopAnim(){
-    clearInterval(interval);
+    if(rafId) cancelAnimationFrame(rafId);
     slider.classList.remove('breathing');
     if(thumbInner) thumbInner.classList.remove('breathing');
   }
 
-  const interval = setInterval(()=>{
+  function frame(timestamp){
     if(_sliderTouched){ stopAnim(); return; }
 
-    step++;
-    const t = easeInOut(step / STEPS_ONE_WAY);
+    if(!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    const t = Math.min(elapsed / DURATION_ONE_WAY, 1);
+    const eased = easeInOut(t);
+
     const val = goingRight
-      ? Math.round(MIN + (MAX - MIN) * t)
-      : Math.round(MAX - (MAX - MIN) * t);
+      ? Math.round(MIN + (MAX - MIN) * eased)
+      : Math.round(MAX - (MAX - MIN) * eased);
 
-    // Set slider value AND directly update visuals (bypass throttle)
     slider.value = val;
-    _calc();   // ← 直接调用，跳过throttle
+    _calc();
 
-    if(step >= STEPS_ONE_WAY){
-      step = 0;
+    if(t < 1){
+      rafId = requestAnimationFrame(frame);
+    } else {
+      // One way done
+      startTime = null;
       goingRight = !goingRight;
       if(goingRight) trip++;
+
       if(trip >= TRIPS){
         stopAnim();
         slider.value = MIN;
@@ -981,9 +987,14 @@ function animateSlider(){
             setTimeout(()=>hint.style.display='none', 600);
           }, 1200);
         }
+      } else {
+        // Tiny pause at each end before reversing
+        setTimeout(()=>{ rafId = requestAnimationFrame(frame); }, 200);
       }
     }
-  }, STEP_MS);
+  }
+
+  rafId = requestAnimationFrame(frame);
 }
 
 function initSocialLocal(){
