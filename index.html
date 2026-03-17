@@ -31,20 +31,14 @@ body{font-family:'Noto Sans SC',sans-serif;background:var(--bg);color:var(--text
 .topbar-order{font-size:12px;color:var(--blue);font-weight:600;padding:5px 12px;background:var(--blue-dim);border-radius:20px;cursor:pointer}
 
 /* ── MODE TABS ── */
-.mode-tabs{display:flex;background:var(--surface);border-radius:12px;padding:4px;margin:10px 15px 0;box-shadow:var(--shadow)}
+.mode-tabs{display:flex;background:var(--surface);border-radius:12px;padding:4px;margin:6px 15px 0;box-shadow:var(--shadow)}
 .mode-tab{flex:1;text-align:center;padding:9px 6px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;color:var(--text2);transition:.2s;line-height:1.3}
 .mode-tab.active{background:var(--gold);color:#fff;box-shadow:0 3px 10px rgba(217,119,6,.3)}
 .mode-tab .tab-sub{font-size:9px;font-weight:400;opacity:.85;margin-top:1px}
 
-/* ── TRUST BAR ── */
-.trust-bar{margin:8px 15px 0;background:var(--green-dim);border:1px solid #A7F3D0;border-radius:10px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.trust-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;box-shadow:0 0 0 3px rgba(5,150,105,.2);animation:pulse-g 2s infinite}
-@keyframes pulse-g{0%,100%{box-shadow:0 0 0 3px rgba(5,150,105,.2)}50%{box-shadow:0 0 0 6px rgba(5,150,105,.1)}}
-.trust-text{font-size:11px;font-weight:600;color:#065F46;flex:1}
-.trust-rank{font-size:10px;color:#059669;font-weight:600}
 
 /* ── GROUP BUY ── */
-.gbuy-bar{margin:7px 15px 0;background:var(--gold-light);border:1px solid var(--gold-dim);border-radius:10px;padding:9px 12px}
+.gbuy-bar{margin:5px 15px 0;background:var(--gold-light);border:1px solid var(--gold-dim);border-radius:10px;padding:8px 12px}
 .gbuy-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
 .gbuy-title{font-size:11px;font-weight:700;color:var(--gold-dark)}
 .gbuy-pill{font-size:10px;font-weight:700;color:#fff;background:var(--gold);padding:2px 8px;border-radius:20px}
@@ -52,73 +46,68 @@ body{font-family:'Noto Sans SC',sans-serif;background:var(--bg);color:var(--text
 .gbuy-tiers span strong{color:#92400E}
 .gbuy-progress{height:5px;background:rgba(217,119,6,.2);border-radius:3px;overflow:hidden}
 .gbuy-fill{height:100%;background:var(--gold);border-radius:3px;transition:.8s}
-.gbuy-hint{font-size:10px;color:var(--gold-dark);margin-top:4px;text-align:right}
 
 /* ── CARDS ── */
-.card{background:var(--surface);border-radius:14px;padding:14px 14px 12px;margin:8px 15px 0;box-shadow:var(--shadow)}
-.card-title{font-size:15px;font-weight:800;margin-bottom:3px;display:flex;justify-content:space-between;align-items:center}
+.card{background:var(--surface);border-radius:14px;padding:10px 12px 10px;margin:6px 15px 0;box-shadow:var(--shadow)}
+.card-title{font-size:15px;font-weight:800;margin-bottom:2px;display:flex;justify-content:space-between;align-items:center}
 .card-sub{font-size:11px;color:var(--text2);margin-bottom:10px}
 .tag-gift{font-size:10px;background:var(--green);color:#fff;padding:2px 8px;border-radius:20px;font-weight:600}
 
 /* ── PACKAGE TAGS ── */
-.pkg-tag{font-size:10px;font-weight:600;color:var(--text2);background:var(--surface2);border:1px solid var(--border);padding:3px 8px;border-radius:20px;white-space:nowrap}
-.pkg-tag-green{background:var(--green-dim);border-color:#A7F3D0;color:#065F46}
+.pkg-tag{font-size:10px;font-weight:600;color:var(--text2);background:var(--surface2);border:1px solid var(--border);padding:4px 4px;border-radius:20px;text-align:center;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pkg-tag-green{background:var(--green-dim);border-color:#A7F3D0;color:#065F46;display:block;text-align:center}
+.pkg-tag-spec{background:#EFF6FF;border-color:#BFDBFE;color:#1E40AF;display:block;text-align:center}
 
 /* ── SLIDER ── */
-.slider-wrap{margin:2px 0 4px;position:relative}
-.slider-track-wrap{position:relative;padding:18px 0 6px}
-input[type=range]{width:100%;height:6px;border-radius:3px;background:linear-gradient(to right,var(--gold) var(--pct,0%),#E5E7EB var(--pct,0%));outline:none;-webkit-appearance:none;cursor:pointer;display:block}
-input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;
-  width:52px;height:52px;border-radius:50%;
-  background:var(--gold);
-  border:4px solid #fff;
-  box-shadow:0 4px 14px rgba(217,119,6,.4);
-  cursor:pointer;
-  position:relative;
-  transition:box-shadow .3s;
+.slider-wrap{margin:0 0 4px}
+.slider-root{position:relative;height:52px;margin:0 4px}
+/* hidden real input sits on top for touch/mouse events */
+.slider-input{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  opacity:0;cursor:pointer;z-index:10;margin:0;
+  -webkit-appearance:none;appearance:none;
 }
-input[type=range].breathing::-webkit-slider-thumb{
-  animation:thumb-breathe 1.2s ease-in-out infinite;
-}
-@keyframes thumb-breathe{
-  0%,100%{box-shadow:0 4px 14px rgba(217,119,6,.4), 0 0 0 0 rgba(217,119,6,.5)}
-  50%{box-shadow:0 4px 20px rgba(217,119,6,.6), 0 0 0 14px rgba(217,119,6,0)}
-}
-.slider-thumb-label{
-  position:absolute;
-  top:0;left:var(--pct,0%);
-  transform:translateX(-50%);
+/* custom track */
+.slider-track{
+  position:absolute;left:0;right:0;
+  top:50%;transform:translateY(-50%);
+  height:6px;border-radius:3px;background:#E5E7EB;
   pointer-events:none;
-  display:flex;flex-direction:column;align-items:center;
-  transition:left .05s;
 }
-.slider-thumb-inner{
+.slider-fill{
+  height:100%;border-radius:3px;
+  background:linear-gradient(to right,var(--gold),#F59E0B);
+  width:0%;transition:width .03s;
+}
+/* custom thumb badge */
+.thumb-badge{
+  position:absolute;
+  top:50%;transform:translate(-50%,-50%);
   width:52px;height:52px;border-radius:50%;
-  background:var(--gold);
-  border:4px solid #fff;
+  background:var(--gold);border:4px solid #fff;
   box-shadow:0 4px 14px rgba(217,119,6,.4);
-  display:flex;align-items:center;justify-content:center;
-  flex-direction:column;
-  gap:0;
-  transition:box-shadow .3s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  pointer-events:none;z-index:5;
+  left:0%;
+  transition:left .03s;
 }
-.slider-thumb-inner.breathing{
-  animation:thumb-breathe 1.2s ease-in-out infinite;
+.thumb-badge.breathing{animation:thumb-glow 1.1s ease-in-out infinite}
+@keyframes thumb-glow{
+  0%,100%{box-shadow:0 4px 14px rgba(217,119,6,.4),0 0 0 0 rgba(217,119,6,.5)}
+  50%{box-shadow:0 4px 20px rgba(217,119,6,.5),0 0 0 12px rgba(217,119,6,0)}
 }
-.slider-thumb-num{font-size:14px;font-weight:900;color:#fff;font-family:'DM Mono',monospace;line-height:1;letter-spacing:-.5px}
-.slider-thumb-unit{font-size:9px;color:rgba(255,255,255,.85);font-weight:600;line-height:1;margin-top:1px}
-.len-extra{font-size:11px;font-weight:600;color:var(--green);text-align:center;min-height:14px;margin-top:2px}
+.thumb-badge-num{font-size:14px;font-weight:900;color:#fff;font-family:'DM Mono',monospace;line-height:1;letter-spacing:-.5px}
+.thumb-badge-unit{font-size:9px;color:rgba(255,255,255,.88);font-weight:600;line-height:1;margin-top:1px}
+.len-extra{font-size:11px;font-weight:600;color:var(--green);text-align:center;min-height:12px;margin-top:4px}
 
 /* ── THICKNESS TOGGLE ── */
-.thick-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:8px}
-.thick-btn{border:1.5px solid var(--border);border-radius:10px;padding:9px 6px;text-align:center;cursor:pointer;background:var(--surface2);transition:.15s}
+.thick-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px}
+.thick-btn{border:1.5px solid var(--border);border-radius:10px;padding:7px 5px;text-align:center;cursor:pointer;background:var(--surface2);transition:.15s}
 .thick-btn.active{border-color:var(--gold);background:var(--gold-light)}
-.thick-btn .tb-mm{font-size:14px;font-weight:800;color:var(--text)}
+.thick-btn .tb-mm{font-size:12px;font-weight:800;color:var(--text)}
 .thick-btn.active .tb-mm{color:var(--gold-dark)}
 .thick-btn .tb-price{font-size:10px;color:var(--text3);margin-top:2px;font-weight:600}
 .thick-btn.active .tb-price{color:var(--gold)}
-.thick-btn .tb-note{font-size:9px;color:var(--text3);margin-top:1px}
 
 /* ── ADVANCED DETAILS ── */
 details{margin-top:6px}
@@ -144,14 +133,9 @@ details[open] .summary-arrow{transform:rotate(90deg)}
 .qty-btn:disabled{opacity:.35;cursor:not-allowed}
 .qty-val{width:32px;text-align:center;font-weight:800;color:var(--gold-dark);font-family:'DM Mono',monospace;font-size:15px}
 
-/* ── MATERIAL BOX ── */
-.material-box{background:var(--surface2);border-radius:10px;padding:13px;margin-top:12px;font-size:12px;color:#4B5563;line-height:1.75}
-.material-box strong{color:var(--text);font-weight:700}
-.material-box .m-row{display:flex;gap:8px;padding:2px 0}
-.material-box .m-label{color:var(--gold-dark);font-weight:600;flex-shrink:0;min-width:40px}
 
 /* ── WARNING ── */
-.warning{font-size:11px;color:var(--red);font-weight:600;margin-top:10px;padding:9px 12px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;display:flex;align-items:flex-start;gap:6px}
+.warning{font-size:11px;color:var(--red);font-weight:600;margin-top:6px;padding:7px 10px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;display:flex;align-items:flex-start;gap:6px}
 
 /* ── QUOTE BOX (sticky) ── */
 .quote-box{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#111827;border-radius:22px 22px 0 0;padding:16px 20px max(16px,env(safe-area-inset-bottom));box-shadow:0 -6px 30px rgba(0,0,0,.2);z-index:200}
@@ -290,7 +274,7 @@ details[open] .summary-arrow{transform:rotate(90deg)}
 
 <!-- ── TOP BAR ── -->
 <div class="topbar">
-  <div class="topbar-logo">🔩 厨管家厨房系统 <em>结构升级焕新</em></div>
+  <div class="topbar-logo">🔩 厨管家 <em>厨房系统 · 结构升级焕新</em></div>
   <div style="font-size:11px;color:var(--text2)">广东·东莞</div>
 </div>
 
@@ -311,26 +295,18 @@ details[open] .summary-arrow{transform:rotate(90deg)}
     </div>
   </div>
 
-  <!-- 信任条 -->
-  <div class="trust-bar">
-    <div class="trust-dot"></div>
-    <div class="trust-text">绿湖国际城已有 <strong id="installed-count">3</strong> 户完成安装 · 今日咨询 <strong>2</strong> 户</div>
-    <div class="trust-rank">你是第 <strong id="rank-num">17</strong> 名</div>
-  </div>
-
-  <!-- 团购进度 -->
+  <!-- 信任+团购合并 -->
   <div class="gbuy-bar">
     <div class="gbuy-header">
-      <div class="gbuy-title">🎉 小区团购优惠</div>
-      <div class="gbuy-pill" id="gbuy-pill">已到 3 户</div>
+      <div class="gbuy-title">🎉 绿湖国际城团购优惠</div>
+      <div class="gbuy-pill" id="gbuy-pill">本区已定3户</div>
     </div>
-    <div class="gbuy-tiers">
+    <div class="gbuy-progress"><div class="gbuy-fill" id="gbuy-fill" style="width:10%"></div></div>
+    <div class="gbuy-tiers" style="margin-bottom:0;margin-top:6px">
       <span>满10户 <strong>-¥100/户</strong></span>
       <span>满20户 <strong>-¥200/户</strong></span>
       <span>满30户 <strong>-¥300/户</strong></span>
     </div>
-    <div class="gbuy-progress"><div class="gbuy-fill" id="gbuy-fill" style="width:90%"></div></div>
-    <div class="gbuy-hint" id="gbuy-hint">距满30户还差 <strong>3</strong> 户，每户再省¥300</div>
   </div>
 
   <!-- 主报价卡 -->
@@ -344,79 +320,77 @@ details[open] .summary-arrow{transform:rotate(90deg)}
     </div>
 
     <!-- 套餐内容：台面模式 -->
-    <div id="pkg-top" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
-      <span class="pkg-tag">台面精密制作</span>
-      <span class="pkg-tag">专业运输安装</span>
-      <span class="pkg-tag">水盆龙头开孔</span>
-      <span class="pkg-tag">燃气灶开孔</span>
-      <span class="pkg-tag">水盆无缝焊接</span>
-      <span class="pkg-tag">下水器安装</span>
-      <span class="pkg-tag">结构胶密封</span>
+    <div id="pkg-top" style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px 6px;margin:0 -2px 7px">
+      <span class="pkg-tag">现场精准测量</span>
+      <span class="pkg-tag">柜体结构评估</span>
+      <span class="pkg-tag">数控精密制作</span>
       <span class="pkg-tag pkg-tag-green">🛡 15年质保</span>
+      <span class="pkg-tag">水盆无缝焊接</span>
+      <span class="pkg-tag">专业无尘安装</span>
+      <span class="pkg-tag">结构胶密封</span>
+      <span class="pkg-tag pkg-tag-green">⚡ 24小时完工</span>
     </div>
 
     <!-- 套餐内容：橱柜模式 -->
-    <div id="pkg-cabinet" style="display:none;flex-wrap:wrap;gap:5px;margin-bottom:10px">
-      <span class="pkg-tag">全钢304柜体</span>
-      <span class="pkg-tag">无缝304门板</span>
-      <span class="pkg-tag">德国百隆门铰</span>
-      <span class="pkg-tag">6mm实心钢台面</span>
-      <span class="pkg-tag">水盆开孔</span>
-      <span class="pkg-tag">燃气灶开孔</span>
-      <span class="pkg-tag">专业安装</span>
+    <div id="pkg-cabinet" style="display:none;grid-template-columns:repeat(4,1fr);gap:5px 6px;margin:0 -2px 4px">
+      <span class="pkg-tag">现场精准测量</span>
+      <span class="pkg-tag">柜体结构评估</span>
+      <span class="pkg-tag">数控精密制作</span>
       <span class="pkg-tag pkg-tag-green">🛡 15年质保</span>
+      <span class="pkg-tag">水盆无缝焊接</span>
+      <span class="pkg-tag">专业无尘安装</span>
+      <span class="pkg-tag">结构胶密封</span>
+      <span class="pkg-tag pkg-tag-green">⚡ 24小时完工</span>
+      <span class="pkg-tag pkg-tag-spec">实心钢台面</span>
+      <span class="pkg-tag pkg-tag-spec">无胶全钢柜体</span>
+      <span class="pkg-tag pkg-tag-spec">304无缝门板</span>
+      <span class="pkg-tag pkg-tag-spec">德国百隆配件</span>
+    </div>
+    <div id="pkg-cab-note" style="display:none;font-size:10px;color:var(--text3);margin:0 -2px 7px;padding:4px 8px;background:var(--surface2);border-radius:8px;line-height:1.6">
+      蓝色为材质规格 · 门板纹理颜色可选，师傅上门提供色卡确认
     </div>
 
     <!-- 长度滑块 -->
     <div class="slider-wrap">
-      <div class="slider-track-wrap">
-        <!-- 15米 label at far right, same height as thumb top -->
-        <div style="position:absolute;right:0;top:0;font-size:10px;color:var(--text3);line-height:52px;pointer-events:none;user-select:none">15米</div>
-        <!-- Invisible range input for interaction -->
-        <input type="range" id="len-slider" min="300" max="1500" step="10" value="300" oninput="updateAll()" style="opacity:0;position:absolute;top:50%;transform:translateY(-50%);left:0;width:100%;height:52px;z-index:2;margin:0">
-        <!-- Visual track -->
-        <div style="height:6px;border-radius:3px;background:#E5E7EB;position:relative;margin:23px 26px">
-          <div id="track-fill" style="height:100%;width:0%;background:var(--gold);border-radius:3px;transition:width .05s"></div>
+      <div class="slider-root">
+        <!-- custom track -->
+        <div class="slider-track">
+          <div class="slider-fill" id="slider-fill"></div>
         </div>
-        <!-- Thumb overlay with number inside -->
-        <div class="slider-thumb-label" id="thumb-label" style="top:0">
-          <div class="slider-thumb-inner" id="thumb-inner">
-            <div class="slider-thumb-num" id="len-val">3.0</div>
-            <div class="slider-thumb-unit">米</div>
-          </div>
+        <!-- custom badge -->
+        <div class="thumb-badge" id="thumb-badge">
+          <div class="thumb-badge-num" id="len-val">3.0</div>
+          <div class="thumb-badge-unit">米</div>
         </div>
+        <!-- hidden real input for interaction -->
+        <input class="slider-input" type="range" id="len-slider"
+          min="300" max="1500" step="10" value="300" oninput="updateAll()">
+      </div>
+      <!-- 3米 | 说明文字 | 15米 同一行 -->
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--text3);padding:0 4px;margin-top:3px;gap:4px">
+        <span style="flex-shrink:0">3米</span>
+        <span id="over-note-inline" style="text-align:center;line-height:1.4;flex:1">超出3米 +¥999/米 ｜ 8/10mm按实际总长加收</span>
+        <span style="flex-shrink:0">15米</span>
       </div>
       <div class="len-extra" id="len-extra"></div>
-      <div id="slider-hint" style="text-align:center;font-size:11px;color:var(--text3);margin-top:6px;letter-spacing:.5px;transition:opacity .4s">
+      <div id="slider-hint" style="text-align:center;font-size:11px;color:var(--text3);margin-top:2px;letter-spacing:.5px;transition:opacity .4s">
         ← 左右拖动调整台面长度 →
       </div>
     </div>
 
-    <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;margin-top:2px">台面厚度</div>
     <div class="thick-row">
       <div class="thick-btn active" id="thick-6" onclick="setThick('6',this)">
-        <div class="tb-mm">6mm</div>
-        <div class="tb-price">3米套餐</div>
-        <div class="tb-note" id="thick-6-pkg-price">¥4,999</div>
+        <div class="tb-mm">台面厚 6mm</div>
+        <div class="tb-price">3米套餐 <span id="thick-6-pkg-price">¥4,999</span></div>
       </div>
       <div class="thick-btn" id="thick-8" onclick="setThick('8',this)">
-        <div class="tb-mm">8mm</div>
-        <div class="tb-price" id="thick-8-price">+¥380/米</div>
-        <div class="tb-note">加厚升级</div>
+        <div class="tb-mm">台面厚 8mm</div>
+        <div class="tb-price" id="thick-8-price">升级 +¥380/米</div>
       </div>
       <div class="thick-btn" id="thick-10" onclick="setThick('10',this)">
-        <div class="tb-mm">10mm</div>
-        <div class="tb-price" id="thick-10-price">+¥600/米</div>
-        <div class="tb-note">顶级承重</div>
+        <div class="tb-mm">台面厚 10mm</div>
+        <div class="tb-price" id="thick-10-price">升级 +¥600/米</div>
       </div>
-    </div>
-    <!-- 超出说明：台面模式 -->
-    <div id="over-note-top" style="font-size:10px;color:var(--text3);margin:-6px 0 12px;padding:7px 10px;background:var(--surface2);border-radius:8px;line-height:1.6">
-      超出3米部分 +¥999/米 ｜ 8/10mm厚度升级按实际总长加收
-    </div>
-    <!-- 超出说明：橱柜模式 -->
-    <div id="over-note-cab" style="font-size:10px;color:var(--text3);margin:-6px 0 12px;padding:7px 10px;background:var(--surface2);border-radius:8px;line-height:1.6;display:none">
-      超出3米部分 +¥2,680/米 ｜ 8/10mm厚度升级按实际总长加收
     </div>
 
     <!-- 可选升级 折叠 -->
@@ -497,17 +471,10 @@ details[open] .summary-arrow{transform:rotate(90deg)}
     <!-- 吊装警示 -->
     <div class="warning">
       <span>⚠️</span>
-      <span>无法使用电梯需吊机或人工搬运，由第三方按实际情况收取，与本报价无关</span>
+      <span>无法使用电梯的，由第三方（吊机或人工搬运）按实际情况收取</span>
     </div>
 
-    <!-- 橱柜材质说明（橱柜模式显示） -->
-    <div class="material-box" id="cabinet-material" style="display:none">
-      <strong>整套橱柜材质说明</strong>
-      <div class="m-row"><span class="m-label">柜体</span><span>全304厚0.8mm全钢无胶水柜体</span></div>
-      <div class="m-row"><span class="m-label">门板</span><span>无缝全不锈钢，纹理颜色师傅上门提供色卡确认</span></div>
-      <div class="m-row"><span class="m-label">台面</span><span>厚6mm 304实心不锈钢</span></div>
-      <div class="m-row"><span class="m-label">门铰</span><span>德国百隆高品质门铰</span></div>
-    </div>
+
   </div>
 
   <div style="height:180px"></div>
@@ -531,20 +498,21 @@ details[open] .summary-arrow{transform:rotate(90deg)}
         <span>可选升级合计</span>
         <span class="qr-val" id="q-extra">¥1,280</span>
       </div>
-      <div class="qr">
-        <span>预约金（定金时全额抵扣）</span>
-        <span class="qr-val qr-green">¥99</span>
-      </div>
+
     </div>
     <div class="quote-divider"></div>
-    <div class="quote-total-row">
-      <div>
-        <div class="qt-label">预估总额</div>
-        <div class="qt-price">¥<span id="q-total">6,020</span></div>
-        <div class="qt-disclaimer">最终价格以现场复尺为准</div>
-      </div>
-      <button class="btn-pay" onclick="showWxModal()">立即预约 ¥99</button>
+    <!-- 第一行：总价信息 -->
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+      <div style="font-size:10px;color:#9CA3AF">预估总额</div>
+      <div class="qt-price" style="font-size:26px">¥<span id="q-total">6,020</span></div>
+      <div style="font-size:9px;color:#6B7280">以现场复尺为准</div>
     </div>
+    <!-- 第二行：金色大按钮，三行文字全在内 -->
+    <button class="btn-pay" onclick="showWxModal()" style="width:100%;padding:10px 14px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px">
+      <span style="font-size:10px;font-weight:400;opacity:.85;text-align:left">成为本区第<span id="q-rank-cta">5</span>名客户</span>
+      <span style="font-size:17px;font-weight:900;letter-spacing:.3px;white-space:nowrap">立即预约 ¥99</span>
+      <span style="font-size:10px;font-weight:400;opacity:.85;text-align:right">定金时全额抵扣</span>
+    </button>
     <div class="quote-footnote">
       * 99元测量费不成交不退 · 成交后全额抵扣定金<br>
       基础套餐不含挡水，如需制作按实际长度另计
@@ -649,13 +617,15 @@ function switchMode(m){
   document.getElementById('tab-CABINET').classList.toggle('active',m==='CABINET');
   document.getElementById('mode-title').textContent=m==='TOP'?'铠钢台面焕新':'全钢304铠钢橱柜';
   document.getElementById('gift-tag').style.display=m==='CABINET'?'inline':'none';
-  document.getElementById('cabinet-material').style.display=m==='CABINET'?'block':'none';
+  const cabNote=document.getElementById('pkg-cab-note');if(cabNote)cabNote.style.display=m==='CABINET'?'block':'none';
   // Toggle package content tags
-  document.getElementById('pkg-top').style.display=m==='TOP'?'flex':'none';
-  document.getElementById('pkg-cabinet').style.display=m==='CABINET'?'flex':'none';
+  document.getElementById('pkg-top').style.display=m==='TOP'?'grid':'none';
+  document.getElementById('pkg-cabinet').style.display=m==='CABINET'?'grid':'none';
   // Toggle overage notes
-  document.getElementById('over-note-top').style.display=m==='TOP'?'block':'none';
-  document.getElementById('over-note-cab').style.display=m==='CABINET'?'block':'none';
+  const oni=document.getElementById('over-note-inline');
+  if(oni) oni.textContent=m==='TOP'
+    ? '超出3米 +¥999/米 ｜ 8/10mm按实际总长加收'
+    : '超出3米 +¥2,680/米 ｜ 8/10mm按实际总长加收';
   // Drawer only relevant for cabinet
   const drawerOpt=document.getElementById('opt-drawer');
   if(drawerOpt)drawerOpt.style.display=m==='CABINET'?'flex':'none';
@@ -710,10 +680,10 @@ function _calc(){
   // Slider visual
   const pct=((lenCm-300)/1200*100);
   const pctClamped=Math.min(100,Math.max(0,pct));
-  const trackFill=document.getElementById('track-fill');
-  const thumbLabel=document.getElementById('thumb-label');
-  if(trackFill)trackFill.style.width=pctClamped+'%';
-  if(thumbLabel)thumbLabel.style.left=`calc(26px + ${pctClamped}% * (100% - 52px) / 100%)`;
+  const fill=document.getElementById('slider-fill');
+  if(fill) fill.style.width=pctClamped.toFixed(1)+'%';
+  const badge=document.getElementById('thumb-badge');
+  if(badge) badge.style.left=pctClamped.toFixed(1)+'%';
 
   // Length display
   document.getElementById('len-val').textContent=lm.toFixed(1);
@@ -818,12 +788,8 @@ function initSocial(){
   document.getElementById('installed-count').textContent=installed;
   document.getElementById('rank-num').textContent=rank;
   document.getElementById('appt-rank').textContent=rank;
-  document.getElementById('gbuy-pill').textContent=`已到 ${installed} 户`;
+  document.getElementById('gbuy-pill').textContent=`本区已定${installed}户`;
   document.getElementById('gbuy-fill').style.width=Math.min(100,Math.round(installed/30*100))+'%';
-  const remaining=30-installed;
-  document.getElementById('gbuy-hint').innerHTML=remaining>0
-    ?`距满30户还差 <strong>${remaining}</strong> 户，每户再省¥300`
-    :'🎉 已达30户！每户立减 <strong>¥300</strong>';
 }
 
 /* ── ADMIN INIT ── */
@@ -919,8 +885,7 @@ window.addEventListener('load',()=>{
       _sliderTouched = true;
       const hint = document.getElementById('slider-hint');
       if(hint){ hint.style.opacity='0'; setTimeout(()=>hint.style.display='none',300); }
-      slider.classList.remove('breathing');
-      const ti = document.getElementById('thumb-inner');
+      const ti = document.getElementById('thumb-badge');
       if(ti) ti.classList.remove('breathing');
       slider.removeEventListener('input', onFirst);
     });
@@ -929,15 +894,14 @@ window.addEventListener('load',()=>{
 
 function animateSlider(){
   const slider = document.getElementById('len-slider');
-  const thumbInner = document.getElementById('thumb-inner');
+  const thumbInner = document.getElementById('thumb-badge');
   if(!slider) return;
 
-  slider.classList.add('breathing');
   if(thumbInner) thumbInner.classList.add('breathing');
 
   const MIN = 300;
   const MAX = 1500;
-  const TRIPS = 3;
+  const TRIPS = 2;
   const DURATION_ONE_WAY = 1400; // 单程1.4秒，来回3次共约8秒
 
   let trip = 0;
@@ -949,7 +913,6 @@ function animateSlider(){
 
   function stopAnim(){
     if(rafId) cancelAnimationFrame(rafId);
-    slider.classList.remove('breathing');
     if(thumbInner) thumbInner.classList.remove('breathing');
   }
 
@@ -1008,19 +971,15 @@ function initSocialLocal(){
   const ar = document.getElementById('appt-rank');
   const gp = document.getElementById('gbuy-pill');
   const gf = document.getElementById('gbuy-fill');
-  const gh = document.getElementById('gbuy-hint');
-
   if(ic) ic.textContent = installed;
   if(rn) rn.textContent = rank;
+  // update gbuy-fill to correct 10% for 3 installs
+  if(gf) gf.style.width = '10%';
   if(ar) ar.textContent = rank;
-  if(gp) gp.textContent = `已到 ${installed} 户`;
+  const qrc=document.getElementById('q-rank-cta');if(qrc)qrc.textContent=rank;
+  if(gp) gp.textContent = `本区已定${installed}户`;
   if(gf) gf.style.width = Math.min(100, Math.round(installed/30*100)) + '%';
-  if(gh){
-    const rem = 30 - installed;
-    gh.innerHTML = rem > 0
-      ? `距满30户还差 <strong>${rem}</strong> 户，每户再省¥300`
-      : '🎉 已达30户！每户立减 <strong>¥300</strong>';
-  }
+
 }
 
 </script>
